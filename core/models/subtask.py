@@ -9,7 +9,7 @@ class SubTask(UUIDv7Model, TimeStampedModel):
     description = models.TextField()
     task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name="subtasks")
     status = models.CharField(max_length=20, choices=Task.Status.choices, default=Task.Status.NEW)
-    deadline = models.DateTimeField()
+    due_date = models.DateTimeField()
 
     class Meta:
         db_table = "task_manager_subtask"
