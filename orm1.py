@@ -191,6 +191,10 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 2. Выведите только пути к каждому файлу.
 """
 
+# project_files= ProjectFile.objects.filter(projects__title="Project1")
+# for file in project_files:
+#     print(file.file.url)
+
 
 """Задание 13
 1. Напишите запрос, который поможет получить только те задачи, у которых:
