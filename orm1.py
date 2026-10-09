@@ -222,7 +222,8 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 через метод update().
 """
 
-
+# task = Task.objects.filter(title="Backend Task 2")
+# task.update(status=Task.Status.PENDING)
 
 """Задание 15
 1. Напишите запрос, который будет содержать в себе прохождение одной из комбинаций:
