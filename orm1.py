@@ -2,6 +2,7 @@ import os
 from datetime import date, datetime
 from idlelib import search
 
+from django.db.models.query_utils import Q
 from django.utils import timezone
 
 import django
@@ -178,7 +179,10 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 ■ Проекты, у которых в имени есть строка ‘TIʼ
 3. Выведите имена таких проектов.
 """
-
+# search_date = timezone.make_aware(datetime(2026, 6, 1))
+# project = Project.objects.filter(Q(created_at__gte=search_date)& Q(title__icontains="1"))
+# for proj in project:
+#     print(proj.title)
 
 
 """Задание 12
