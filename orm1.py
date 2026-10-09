@@ -143,3 +143,13 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 #     print(f"Тег с именем '{tag_name}' существует.")
 # else:
 #     print(f"Тег с именем '{tag_name}' не существует.")
+
+"""Задание 9
+1. Напишите запрос, который позволит получить теги, у которых в имени будет совпадение по
+переданной строке, например: “...Tagˮ
+2. Выведите имена всех этих тегов."""
+
+# search_string = "e"
+# matching_tags = Tag.objects.filter(name__icontains=search_string)
+# for tag in matching_tags:
+#     print(tag.name)
