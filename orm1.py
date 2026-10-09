@@ -57,25 +57,55 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 4. Убедитесь, что данные были созданы и сохранены в базу данных.
 """
 
-task1 = Task.objects.create(
-    title="Backend Task 2",
-    description="This is a backend task.",
-    status=Task.Status.NEW,
-    priority=Task.Priority.HIGH,
-    project=Project.objects.get(title="Project1"),
-    due_date=date(2024, 6, 30),
-    assignee=User.objects.get(username="Backend"),
-)
+# task1 = Task.objects.create(
+#     title="Backend Task 2",
+#     description="This is a backend task.",
+#     status=Task.Status.NEW,
+#     priority=Task.Priority.HIGH,
+#     project=Project.objects.get(title="Project1"),
+#     due_date=date(2024, 6, 30),
+#     assignee=User.objects.get(username="Backend"),
+# )
+#
+# task2 = Task.objects.create(
+#     title="Frontend Task 2",
+#     description="This is a frontend task.",
+#     #categories= Category.objects.get(name="Category1"),
+#     status=Task.Status.NEW,
+#     priority=Task.Priority.MEDIUM,
+#     project=Project.objects.get(title="Project1"),
+#     due_date=date(2024, 7, 15),
+#     assignee=User.objects.get(username="Frontend")
+# )
 
-task2 = Task.objects.create(
-    title="Frontend Task 2",
-    description="This is a frontend task.",
-    #categories= Category.objects.get(name="Category1"),
-    status=Task.Status.NEW,
-    priority=Task.Priority.MEDIUM,
-    project=Project.objects.get(title="Project1"),
-    due_date=date(2024, 7, 15),
-    assignee=User.objects.get(username="Frontend")
-)
+# task3 = Task.objects.create(
+#     title="DevOps Task 2",
+#     description="This is a DevOps task.",
+#     status=Task.Status.NEW,
+#     priority=Task.Priority.LOW,
+#     project=Project.objects.get(title="Project2"),
+#     due_date=timezone.make_aware(datetime(2024, 6, 30)),
+#     assignee=User.objects.get(username="DevOPS")
+# )
 
+"""Задание 6
+1. Получите все объекты тегов.
+2. У каждого объекта созданных задач обратитесь к полю тегов через точку.
+3. У поля ManyToMany (tags) вызовите метод add и передайте ему объект тега.
+○ Объект тега будет зависеть от того, какой title будет в задаче, например:
+(‘Добавить новый эндпоинтʼ - Backend tag, ‘Обновить страницу ответа 404ʼ - Frontend tag)"""
+
+# task1 = Task.objects.get(title="Backend Task 2")
+# backend_tag = Tag.objects.get(name="Backend")
+# task1.tag.add(backend_tag)
+
+###tiger_task_1.tags.add(back_tag)
+
+# task2 = Task.objects.get(title="Frontend Task 2")
+# frontend_tag = Tag.objects.get(name="Frontend")
+# task2.tag.add(frontend_tag)
+#
+# task3 = Task.objects.get(title="Backend Task 1")
+# backend_tag = Tag.objects.get(name="Backend")
+# task3.tag.add(backend_tag)
 
