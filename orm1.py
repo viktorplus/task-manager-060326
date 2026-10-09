@@ -109,3 +109,26 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 # backend_tag = Tag.objects.get(name="Backend")
 # task3.tag.add(backend_tag)
 
+"""Задание 7
+1. Импортируйте модели тегов Tag.
+2. Напишите запрос, который позволит получить список всех тегов.
+3. Выведите имя каждого тега.
+4. Получите самый первый тег.
+5. Получите самый последний тег.
+6. Получите кол-во всех тегов.
+"""
+
+
+# all_tags = Tag.objects.all()
+# for tag in all_tags:
+#     print(tag.name)
+#
+# first_tag = Tag.objects.first()
+# print("Первый тег:", first_tag.name)
+#
+# last_tag = Tag.objects.last()
+# print("Последний тег:", last_tag.name)
+#
+# tags_count = Tag.objects.count()
+# print("Количество тегов:", tags_count)
+
