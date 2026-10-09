@@ -132,3 +132,14 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 # tags_count = Tag.objects.count()
 # print("Количество тегов:", tags_count)
 
+"""Задание 8
+1. Напишите запрос, который будет искать тэг по определённому имени
+2. Проверьте наличие такого тега методом, который выдаёт True или False на наличие объекта.
+"""
+
+# tag_name = "Backend"
+# tag_exists = Tag.objects.filter(name=tag_name).exists()
+# if tag_exists:
+#     print(f"Тег с именем '{tag_name}' существует.")
+# else:
+#     print(f"Тег с именем '{tag_name}' не существует.")
