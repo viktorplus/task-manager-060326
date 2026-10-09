@@ -1,5 +1,5 @@
 import os
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from idlelib import search
 
 from django.db.models import Q, F
@@ -255,6 +255,7 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 #
 # Task.objects.filter(due_date__year=year, due_date__month=month).update(priority=Task.Priority.HIGH)
 
+###Task.objects.filter(due_date__month=F('created_date__month') + 1).update(priority="Critical")
 
 """Задание 17
 1. Импортируйте модуль timedelta из библиотеки datetime.
@@ -262,6 +263,7 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 3. Обновите все объекты задач по полю due_date на + 1 неделю. Используйте Fкласс.
 """
 
+# Task.objects.update(due_date=F('due_date') + timedelta(weeks=1))
 
 
 """Задание 18
