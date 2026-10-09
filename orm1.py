@@ -207,7 +207,14 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 ○ Дата, когда задача должна быть сдана
 ○ Email сотрудника, за которым закреплена эта задача"""
 
-
+# tasks_filter = Task.objects.filter(status=Task.Status.NEW, priority=Task.Priority.HIGH)
+# for task in tasks_filter:
+#     print(f"Название: {task.title}")
+#     print(f"Статус: {task.status}")
+#     print(f"Приоритетность: {task.priority}")
+#     print(f"Дата сдачи: {task.due_date}")
+#     print(f"Email сотрудника: {task.assignee.email if task.assignee else 'Нет назначенного сотрудника'}")
+#     print("-----")
 
 """Задание 14
 1. Напишите запрос, который поможет получить конкретную задачу
