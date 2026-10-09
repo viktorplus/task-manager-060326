@@ -273,7 +273,11 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 3. Выведите название таких задач и название проекта для этих задач.
 """
 
-
+# tasks_w_assignee = Task.objects.filter(assignee__isnull=True)
+# for task in tasks_w_assignee:
+#     print(f"Название задачи: {task.title}")
+#     print(f"Название проекта: {task.project.title}")
+#     print("-----")
 
 """Задание 19
 Необходимо получить все задачи, связанные с тэгами и содержащими определённое ключевое слово.
