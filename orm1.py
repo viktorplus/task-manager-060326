@@ -2,7 +2,7 @@ import os
 from datetime import date, datetime
 from idlelib import search
 
-from django.db.models.query_utils import Q
+from django.db.models import Q, F
 from django.utils import timezone
 
 import django
@@ -232,7 +232,14 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 2. Выведите название этих задач, проект и email разработчиков.
 """
 
-
+# task_filter2 = Task.objects.filter(
+#     Q(status=Task.Status.NEW) & Q(priority=Task.Priority.HIGH) | ~Q(tag__name="Tag1")
+# )
+# for task in task_filter2:
+#     print(f"Название: {task.title}")
+#     print(f"Проект: {task.project.title}")
+#     print(f"Email разработчика: {task.assignee.email if task.assignee else 'Нет назначенного сотрудника'}")
+#     print("-----")
 
 """Задание 16
 1. Импортируйте модель Task.
@@ -240,6 +247,13 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 3. Обновите приоритет задач, которые должны быть выполнены в следующем месяце, на "Critical".
 Используйте Fкласс."""
 
+# today = timezone.localdate()
+# if today.month == 12:
+#     year, month = today.year + 1, 1
+# else:
+#     year, month = today.year, today.month + 1
+#
+# Task.objects.filter(due_date__year=year, due_date__month=month).update(priority=Task.Priority.HIGH)
 
 
 """Задание 17
