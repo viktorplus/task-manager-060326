@@ -282,7 +282,7 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 """Задание 19
 Необходимо получить все задачи, связанные с тэгами и содержащими определённое ключевое слово.
 1. Импортируйте модель Task.
-2. Напишите запрос, который поможет отфильтровать задачи через конкретный тэг.
+2. Напишите запрос, который поможет отфильтровать задачи через конкретный тэг. Q&A
 ○ Запрос должен быть написан с использованием lookups полей
 ○ Запрос должен начинаться с модели Task, через эту модель нужно получить доступ к
 конкретному тэгу.
@@ -292,6 +292,14 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 ○ Приоритет задачи
 ○ Имя проекта этой задачи"""
 
+###???
+# task_wi_qa = Task.objects.filter(tag__name__icontains="Backend")
+# for task in task_wi_qa:
+#     print(f"Имя задачи: {task.title}")
+#     print(f"Статус задачи: {task.status}")
+#     print(f"Приоритет задачи: {task.priority}")
+#     print(f"Имя проекта: {task.project.title}")
+#     print("-----")
 
 
 """Задание 20
@@ -305,7 +313,14 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 получили предыдущим запросом.
 5. Выведите информацию об этих проектах: имя проекта и дата создания."""
 
-
+# last_week = timezone.now() - timedelta(days=7)
+# recent_files = ProjectFile.objects.filter(created_at__gte=last_week)
+# projects_with_recent_files = Project.objects.filter(files__in=recent_files).distinct()
+#
+# for project in projects_with_recent_files:
+#     print(f"Имя проекта: {project.title}")
+#     print(f"Дата создания: {project.created_at}")
+#     print("-----")
 
 """Задание 21
 1. Импортируйте модель Task.
@@ -315,7 +330,12 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 5. Посмотрите результат, выведите поле статуса у всех задач.
 """
 
-
+# tasks = list(Task.objects.filter(status=Task.Status.NEW))
+#
+# for task in tasks:
+#     task.status = Task.Status.IN_PROGRESS
+#
+# Task.objects.bulk_update(tasks, ["status"])
 
 """Задание 22
 1. Импортируйте модель Task.
