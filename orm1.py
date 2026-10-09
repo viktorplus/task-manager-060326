@@ -2,7 +2,7 @@ import os
 from datetime import date, datetime, timedelta
 from idlelib import search
 
-from django.db.models import Q, F
+from django.db.models import Q, F, Count
 from django.utils import timezone
 
 import django
@@ -334,8 +334,9 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 #
 # for task in tasks:
 #     task.status = Task.Status.IN_PROGRESS
+#     task.updated_at = timezone.now()
 #
-# Task.objects.bulk_update(tasks, ["status"])
+# Task.objects.bulk_update(tasks, ["status", "updated_at"])
 
 """Задание 22
 1. Импортируйте модель Task.
@@ -346,6 +347,13 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 5. У модели Task вызовите метод, который поможет массово обновить данные.
 """
 
+# task_to_update = list(Task.objects.filter(status=Task.Status.IN_PROGRESS))
+# for task in task_to_update:
+#     task.due_date = F('due_date') + timedelta(days=3)
+#     task.updated_at = timezone.now()
+#
+# Task.objects.bulk_update(task_to_update, ["due_date", "updated_at"])
+
 """Задание 23
 1. Импортируйте класс Count для подсчёта кол-ва файлов.
 2. Импортируйте модуль timezone из фреймворка django.
@@ -354,6 +362,21 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 5. Напишите запрос, который будет фильтровать проекты по следующим параметрам:
 ○ Дата создания должна быть больше той даты, что мы получили ранее
 ○ Кол-во файлов для проекта должно быть больше, или равно переданному, например трём"""
+
+# my_date = timezone.datetime(2020, 7, 7).astimezone()
+# # my_date = timezone.make_aware(datetime.date(2020, 7, 7))
+#
+# projects_filtered = Project.objects.annotate(file_count=Count('files')).filter(
+#     Q(created_at__gt=my_date) &
+#     Q(file_count__gte=1)
+# )
+##??
+# for project in projects_filtered:
+#     print(f"Имя проекта: {project.title}")
+#     print(f"Дата создания: {project.created_at}")
+#     print(f"Количество файлов: {project.file_count}")
+#     print("-----")
+
 
 
 """Задание 24
@@ -364,6 +387,21 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 5. Напишите запрос, который будет фильтровать задачи по нескольким условиям:
 ○ Приоритет задачи или “Criticalˮ или “Urgentˮ
 ○ Дата, когда задача должна быть закрыта(due_date) - дата конца месяца с текущей даты"""
+
+import calendar
+
+def get_end_of_month():
+    today = timezone.localtime(timezone.now())
+    last_day = calendar.monthrange(today.year, today.month)[1]
+    end_of_month = today.replace(day=last_day)
+    return end_of_month
+
+end_of_month = get_end_of_month()
+tasks_filtered = Task.objects.filter(
+ Q(priority="High") |
+Q(priority="Low"),
+ due_date__lte=end_of_month
+)
 
 """Задание 25
 1. Импортируйте модель Task.
