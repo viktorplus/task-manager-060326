@@ -1,5 +1,7 @@
 import os
 from datetime import date, datetime
+from idlelib import search
+
 from django.utils import timezone
 
 import django
@@ -153,3 +155,16 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 # matching_tags = Tag.objects.filter(name__icontains=search_string)
 # for tag in matching_tags:
 #     print(tag.name)
+
+"""Задание 10
+1. Импортируйте модуль datetime и модель Project.
+2. Создайте объект даты, по которой нужно сделать поиск.
+3. Напишите запрос, который позволит получить список проектов, которые равны или старше
+переданной даты создания.
+4. Выведите имена таких проектов"""
+
+# search_date = timezone.make_aware(datetime(2026, 6, 1))
+#
+# project = Project.objects.filter(created_at__gte=search_date)
+# for proj in project:
+#     print(proj.title)
