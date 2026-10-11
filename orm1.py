@@ -391,17 +391,18 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 import calendar
 
 def get_end_of_month():
-    today = timezone.localtime(timezone.now())
+    today = timezone.localdate()
     last_day = calendar.monthrange(today.year, today.month)[1]
-    end_of_month = today.replace(day=last_day)
-    return end_of_month
+    return today.replace(day=last_day)
 
-end_of_month = get_end_of_month()
+
 tasks_filtered = Task.objects.filter(
- Q(priority="High") |
-Q(priority="Low"),
- due_date__lte=end_of_month
+    Q(priority=Task.Priority.MEDIUM) | Q(priority=Task.Priority.HIGH),
+    due_date__date=get_end_of_month()
 )
+
+for task in tasks_filtered:
+    print(task.title, task.priority, task.due_date)
 
 """Задание 25
 1. Импортируйте модель Task.
@@ -410,6 +411,12 @@ Q(priority="Low"),
 например: “pendingˮ и “closedˮ.
 """
 
+tasks_filtered = Task.objects.exclude(
+    Q(status=Task.Status.PENDING) | Q(status=Task.Status.DONE)
+)
+
+for task in tasks_filtered:
+    print(task.title, task.status)
 
 """Задание 26
 1. Импортируйте модель Task.
@@ -420,3 +427,22 @@ Q(priority="Low"),
 которые были созданы месяц назад.
 5. Обновите приоритетность таких задач на самую высокую."""
 
+today = timezone.localdate()
+
+# Последний день предыдущего месяца
+previous_month = today.replace(day=1) - timedelta(days=1)
+
+# Та же дата предыдущего месяца, с учётом его длины
+month_ago = previous_month.replace(
+    day=min(today.day, previous_month.day)
+)
+
+updated_count = Task.objects.filter(
+    project__title="Project1",
+    created_at__date=month_ago
+).update(
+    priority=Task.Priority.HIGH,
+    updated_at=timezone.now()
+)
+
+print("Обновлено задач:", updated_count)
