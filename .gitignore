@@ -351,3 +351,6 @@ poetry.toml
 pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/pycharm+all,python,django
+
+# SDLC pipeline cost baseline (local)
+docs/cost-baseline.md
