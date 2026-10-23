@@ -62,7 +62,7 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 
 # task1 = Task.objects.create(
 #     title="Backend Task 2",
-#     description="This is a backend task.",
+#     description="This is a backend tasks.",
 #     status=Task.Status.NEW,
 #     priority=Task.Priority.HIGH,
 #     project=Project.objects.get(title="Project1"),
@@ -72,7 +72,7 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 #
 # task2 = Task.objects.create(
 #     title="Frontend Task 2",
-#     description="This is a frontend task.",
+#     description="This is a frontend tasks.",
 #     #categories= Category.objects.get(name="Category1"),
 #     status=Task.Status.NEW,
 #     priority=Task.Priority.MEDIUM,
@@ -83,7 +83,7 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 
 # task3 = Task.objects.create(
 #     title="DevOps Task 2",
-#     description="This is a DevOps task.",
+#     description="This is a DevOps tasks.",
 #     status=Task.Status.NEW,
 #     priority=Task.Priority.LOW,
 #     project=Project.objects.get(title="Project2"),
@@ -208,12 +208,12 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 ○ Email сотрудника, за которым закреплена эта задача"""
 
 # tasks_filter = Task.objects.filter(status=Task.Status.NEW, priority=Task.Priority.HIGH)
-# for task in tasks_filter:
-#     print(f"Название: {task.title}")
-#     print(f"Статус: {task.status}")
-#     print(f"Приоритетность: {task.priority}")
-#     print(f"Дата сдачи: {task.due_date}")
-#     print(f"Email сотрудника: {task.assignee.email if task.assignee else 'Нет назначенного сотрудника'}")
+# for tasks in tasks_filter:
+#     print(f"Название: {tasks.title}")
+#     print(f"Статус: {tasks.status}")
+#     print(f"Приоритетность: {tasks.priority}")
+#     print(f"Дата сдачи: {tasks.due_date}")
+#     print(f"Email сотрудника: {tasks.assignee.email if tasks.assignee else 'Нет назначенного сотрудника'}")
 #     print("-----")
 
 """Задание 14
@@ -222,8 +222,8 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 через метод update().
 """
 
-# task = Task.objects.filter(title="Backend Task 2")
-# task.update(status=Task.Status.PENDING)
+# tasks = Task.objects.filter(title="Backend Task 2")
+# tasks.update(status=Task.Status.PENDING)
 
 """Задание 15
 1. Напишите запрос, который будет содержать в себе прохождение одной из комбинаций:
@@ -235,10 +235,10 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 # task_filter2 = Task.objects.filter(
 #     Q(status=Task.Status.NEW) & Q(priority=Task.Priority.HIGH) | ~Q(tag__name="Tag1")
 # )
-# for task in task_filter2:
-#     print(f"Название: {task.title}")
-#     print(f"Проект: {task.project.title}")
-#     print(f"Email разработчика: {task.assignee.email if task.assignee else 'Нет назначенного сотрудника'}")
+# for tasks in task_filter2:
+#     print(f"Название: {tasks.title}")
+#     print(f"Проект: {tasks.project.title}")
+#     print(f"Email разработчика: {tasks.assignee.email if tasks.assignee else 'Нет назначенного сотрудника'}")
 #     print("-----")
 
 """Задание 16
@@ -274,9 +274,9 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 """
 
 # tasks_w_assignee = Task.objects.filter(assignee__isnull=True)
-# for task in tasks_w_assignee:
-#     print(f"Название задачи: {task.title}")
-#     print(f"Название проекта: {task.project.title}")
+# for tasks in tasks_w_assignee:
+#     print(f"Название задачи: {tasks.title}")
+#     print(f"Название проекта: {tasks.project.title}")
 #     print("-----")
 
 """Задание 19
@@ -294,11 +294,11 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 
 ###???
 # task_wi_qa = Task.objects.filter(tag__name__icontains="Backend")
-# for task in task_wi_qa:
-#     print(f"Имя задачи: {task.title}")
-#     print(f"Статус задачи: {task.status}")
-#     print(f"Приоритет задачи: {task.priority}")
-#     print(f"Имя проекта: {task.project.title}")
+# for tasks in task_wi_qa:
+#     print(f"Имя задачи: {tasks.title}")
+#     print(f"Статус задачи: {tasks.status}")
+#     print(f"Приоритет задачи: {tasks.priority}")
+#     print(f"Имя проекта: {tasks.project.title}")
 #     print("-----")
 
 
@@ -332,9 +332,9 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 
 # tasks = list(Task.objects.filter(status=Task.Status.NEW))
 #
-# for task in tasks:
-#     task.status = Task.Status.IN_PROGRESS
-#     task.updated_at = timezone.now()
+# for tasks in tasks:
+#     tasks.status = Task.Status.IN_PROGRESS
+#     tasks.updated_at = timezone.now()
 #
 # Task.objects.bulk_update(tasks, ["status", "updated_at"])
 
@@ -348,9 +348,9 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 """
 
 # task_to_update = list(Task.objects.filter(status=Task.Status.IN_PROGRESS))
-# for task in task_to_update:
-#     task.due_date = F('due_date') + timedelta(days=3)
-#     task.updated_at = timezone.now()
+# for tasks in task_to_update:
+#     tasks.due_date = F('due_date') + timedelta(days=3)
+#     tasks.updated_at = timezone.now()
 #
 # Task.objects.bulk_update(task_to_update, ["due_date", "updated_at"])
 

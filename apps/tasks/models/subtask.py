@@ -1,7 +1,7 @@
 from django.db import models
 
-from .base import TimeStampedModel, UUIDv7Model
-from .task import Task
+from models.base import TimeStampedModel, UUIDv7Model
+from apps.tasks.models.task import Task
 
 
 class SubTask(UUIDv7Model, TimeStampedModel):

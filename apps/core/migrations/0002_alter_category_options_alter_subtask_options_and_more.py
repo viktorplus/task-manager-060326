@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
             options={'ordering': ['-created_at'], 'verbose_name': 'SubTask', 'verbose_name_plural': 'SubTasks'},
         ),
         migrations.AlterModelOptions(
-            name='task',
+            name='tasks',
             options={'ordering': ['-created_at'], 'verbose_name': 'Task', 'verbose_name_plural': 'Tasks'},
         ),
         migrations.AddField(
@@ -34,12 +34,12 @@ class Migration(migrations.Migration):
             field=models.DateTimeField(auto_now=True),
         ),
         migrations.AddField(
-            model_name='task',
+            model_name='tasks',
             name='deleted_at',
             field=models.DateTimeField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='task',
+            model_name='tasks',
             name='updated_at',
             field=models.DateTimeField(auto_now=True),
         ),
@@ -59,12 +59,12 @@ class Migration(migrations.Migration):
             field=models.CharField(max_length=255, unique=True),
         ),
         migrations.AlterField(
-            model_name='task',
+            model_name='tasks',
             name='id',
             field=models.UUIDField(default=uuid.uuid7, editable=False, primary_key=True, serialize=False),
         ),
         migrations.AlterField(
-            model_name='task',
+            model_name='tasks',
             name='title',
             field=models.CharField(max_length=255, unique=True),
         ),
@@ -77,7 +77,7 @@ class Migration(migrations.Migration):
             table='task_manager_subtask',
         ),
         migrations.AlterModelTable(
-            name='task',
+            name='tasks',
             table='task_manager_task',
         ),
     ]

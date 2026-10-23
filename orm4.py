@@ -129,8 +129,8 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 #
 # from core.models import Task
 # tasks = Task.objects.all().order_by("priority", "due_date")
-# for task in tasks:
-#     print(f"Task: {task.title}, Priority: {task.priority}, Due Date: {task.due_date}")
+# for tasks in tasks:
+#     print(f"Task: {tasks.title}, Priority: {tasks.priority}, Due Date: {tasks.due_date}")
 
 """Задание 8
 1. Импортируйте модель User из django.
@@ -173,12 +173,12 @@ from core.models import Tag, Project, ProjectFile, Task, Category
 """from core.models import Task
 from django.core.paginator import Paginator
 
-task = Task.objects.all()
-paginator = Paginator(task, 10)  # 10 tasks per page
+tasks = Task.objects.all()
+paginator = Paginator(tasks, 10)  # 10 tasks per page
 page_number = 1  # You can change this to get different pages
 page_obj = paginator.get_page(page_number)
-for task in page_obj:
-    print(f"Task: {task.title}, Status: {task.status}, Priority: {task.priority}, Username: {task.assignee}")"""
+for tasks in page_obj:
+    print(f"Task: {tasks.title}, Status: {tasks.status}, Priority: {tasks.priority}, Username: {tasks.assignee}")"""
 
 
 """Задание 10

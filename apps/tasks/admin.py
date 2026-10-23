@@ -1,24 +1,8 @@
-from django.contrib import admin, messages
-from django.utils import timezone
-from .models import Category, SubTask, Task, Project, ProjectFile, Tag
+from django.contrib import admin
+from .models import Category, SubTask, Task, Tag
+from apps.core.admin import replace_spaces_with_underscores
 
-
-@admin.action(description="заменять пробелы на нижние подчёркивания для объектов проекта")
-def replace_spaces_with_underscores(modeladmin, request, queryset):
-    bool = False
-    for obj in queryset:
-        if " " in obj.title:
-            obj.title = obj.title.replace(" ", "_")
-            obj.updated_at = timezone.now()
-            obj.save()
-            bool = True
-
-    if bool:
-        modeladmin.message_user(request, f"Все пробелы успешно заменены на нижние подчёркивания.", messages.SUCCESS)
-    else:
-        modeladmin.message_user(request, f"Объект {obj} не содержит пробелов в названии.", messages.SUCCESS)
-
-
+# Register your models here.
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ("name",)
@@ -46,24 +30,6 @@ class SubTaskAdmin(admin.ModelAdmin):
     list_filter = ("status", "task", "created_at", "due_date")
     search_fields = ("title",)
     actions = [replace_spaces_with_underscores]
-
-
-
-@admin.register(Project)
-class ProjectAdmin(admin.ModelAdmin):
-    list_display = ("title", "created_at", "file_count")
-    search_fields = ("title", "description")
-    actions = [replace_spaces_with_underscores]
-
-
-
-
-@admin.register(ProjectFile)
-class ProjectFileAdmin(admin.ModelAdmin):
-    list_display = ("file_name", "file", "created_at")
-    search_fields = ("file_name",)
-    actions = [replace_spaces_with_underscores]
-
 
 
 @admin.register(Tag)

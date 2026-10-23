@@ -62,7 +62,7 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.AlterModelOptions(
-            name='task',
+            name='tasks',
             options={'ordering': ['-due_date', 'assignee__username'], 'verbose_name': 'Task', 'verbose_name_plural': 'Tasks'},
         ),
         migrations.RenameField(
@@ -71,37 +71,37 @@ class Migration(migrations.Migration):
             new_name='due_date',
         ),
         migrations.RenameField(
-            model_name='task',
+            model_name='tasks',
             old_name='deadline',
             new_name='due_date',
         ),
         migrations.AddField(
-            model_name='task',
+            model_name='tasks',
             name='assignee',
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='tasks', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
-            model_name='task',
+            model_name='tasks',
             name='priority',
             field=models.CharField(choices=[('low', 'Low'), ('medium', 'Medium'), ('high', 'High')], default='medium', max_length=15),
         ),
         migrations.AlterField(
-            model_name='task',
+            model_name='tasks',
             name='description',
             field=models.TextField(blank=True),
         ),
         migrations.AlterField(
-            model_name='task',
+            model_name='tasks',
             name='status',
             field=models.CharField(choices=[('new', 'New'), ('in_progress', 'In progress'), ('pending', 'Pending'), ('blocked', 'Blocked'), ('done', 'Done')], default='new', max_length=15),
         ),
         migrations.AlterField(
-            model_name='task',
+            model_name='tasks',
             name='title',
             field=models.CharField(max_length=255, unique=True, validators=[django.core.validators.MinLengthValidator(10)]),
         ),
         migrations.AddField(
-            model_name='task',
+            model_name='tasks',
             name='project',
             field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, related_name='tasks', to='core.project'),
             preserve_default=False,
@@ -112,12 +112,12 @@ class Migration(migrations.Migration):
             field=models.ManyToManyField(blank=True, related_name='projects', to='core.projectfile'),
         ),
         migrations.AddField(
-            model_name='task',
+            model_name='tasks',
             name='tag',
             field=models.ManyToManyField(blank=True, related_name='tasks', to='core.tag'),
         ),
         migrations.AddConstraint(
-            model_name='task',
+            model_name='tasks',
             constraint=models.UniqueConstraint(fields=('title', 'project'), name='unique_project_title'),
         ),
         migrations.AddConstraint(

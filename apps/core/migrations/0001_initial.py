@@ -36,7 +36,7 @@ class Migration(migrations.Migration):
                 ("status", models.CharField(choices=[("new", "New"), ("in_progress", "In progress"), ("pending", "Pending"), ("blocked", "Blocked"), ("done", "Done")], default="new", max_length=20)),
                 ("deadline", models.DateTimeField()),
                 ("created_at", models.DateTimeField(auto_now_add=True)),
-                ("task", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="subtasks", to="core.task")),
+                ("tasks", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name="subtasks", to="core.tasks")),
             ],
         ),
     ]

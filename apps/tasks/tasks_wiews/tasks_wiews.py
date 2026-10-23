@@ -1,23 +1,7 @@
-from uuid import UUID
-
-from django.db.models.functions import uuid
-from django.http import HttpResponse
-from .serializers import AllProjectsSerializer, TaskSerializer, TagSerializer
-from rest_framework.request import Request
-from django.http import JsonResponse
-from rest_framework import status
-from rest_framework.decorators import api_view
-from core.models import Project, Task, Tag
 
 
-def hello(request, name):
-    return HttpResponse(f'Hello, {name}!')
 
-@api_view(['GET'])
-def get_all_projects(request: Request):
-    projects = Project.objects.all()
-    serializer = AllProjectsSerializer(projects, many=True)
-    return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
+
 
 @api_view(['GET'])
 def get_all_tasks(request: Request):

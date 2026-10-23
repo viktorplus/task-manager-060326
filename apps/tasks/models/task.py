@@ -1,7 +1,7 @@
 from django.core.validators import MinLengthValidator
 from django.db import models
 from django.conf import settings
-from .base import TimeStampedModel, UUIDv7Model
+from models.base import TimeStampedModel, UUIDv7Model
 """Создайте связь модели пользователя (User) с моделью Task.
 Добавьте связь к модели Task через поле assignee, которое будет ссылаться на
 пользователя. При выборе типа связи учтите, что на одной задаче может быть
