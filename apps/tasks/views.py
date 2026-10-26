@@ -3,11 +3,12 @@ from uuid import UUID
 from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.request import Request
 
 from apps.tasks.models import Tag, Task
-from apps.tasks.serializers import TagSerializer, TaskSerializer
+from apps.tasks.serializers import TagSerializer, TaskSerializer, TaskInfoSerializer
 
 @api_view(['GET'])
 def get_all_tasks(request: Request):
@@ -84,3 +85,11 @@ def delete_tag(request: Request, tag_id: UUID):
         },
         status=status.HTTP_200_OK)
 
+@api_view(['GET', ])
+def get_task_by_id(request: Request, task_id: UUID):
+    try:
+        task = Task.objects.get(id=task_id)
+    except Task.DoesNotExist:
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
+    serializer = TaskInfoSerializer(task)
+    return Response(serializer.data, status=status.HTTP_200_OK)

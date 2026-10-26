@@ -1,2 +1,4 @@
-from .tasks import TaskSerializer
+from .tasks import TaskSerializer, TaskInfoSerializer
 from .tags import TagSerializer
+
+
