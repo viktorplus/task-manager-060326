@@ -1,10 +1,10 @@
 from django.contrib import admin, messages
 from django.utils import timezone
-from .models import Category, SubTask, Task, Tag
+
+from apps.tasks.models import Category, SubTask, Tag, Task
 from apps.core.admin import replace_spaces_with_underscores
 
 
-# Register your models here.
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ("name",)
@@ -32,6 +32,7 @@ class SubTaskAdmin(admin.ModelAdmin):
     list_filter = ("status", "task", "created_at", "due_date")
     search_fields = ("title",)
     actions = [replace_spaces_with_underscores]
+
 
 
 @admin.register(Tag)

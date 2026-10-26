@@ -1,6 +1,6 @@
-from apps.tasks.models.category import Category
-from apps.tasks.models.task import Task
-from apps.tasks.models.subtask import SubTask
-from apps.tasks.models.tag import Tag
+from .category import Category
+from .task import Task
+from .subtask import SubTask
+from .tag import Tag
 
 __all__ = ("Category", "Task", "SubTask", "Tag")

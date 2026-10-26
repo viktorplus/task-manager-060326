@@ -18,11 +18,3 @@ def replace_spaces_with_underscores(modeladmin, request, queryset):
         modeladmin.message_user(request, f"Объект {obj} не содержит пробелов в названии.", messages.SUCCESS)
 
 
-
-
-
-
-
-
-
-
