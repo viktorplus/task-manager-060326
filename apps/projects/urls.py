@@ -1,6 +1,6 @@
 from django.urls import path
 
-from apps.projects.views.project_views import ProjectsListAPIView  # представления проектов
+from apps.projects.views.project_views import ProjectsListAPIView, ProjectDetailAPIView  # представления проектов
 
 app_name = 'projects'
 
@@ -25,5 +25,7 @@ app_name = 'projects'
 
 urlpatterns = [
     path('', ProjectsListAPIView.as_view(), name='project-list'),  # GET список (фильтр по датам), POST создание
+    # path('<int:pk>/', ProjectDetailAPIView.as_view()),  # вариант практики: <int:pk>, но у Project id — UUID
+    path('<uuid:pk>/', ProjectDetailAPIView.as_view(), name='project-detail'),  # GET/PUT/DELETE одного проекта
 
 ]

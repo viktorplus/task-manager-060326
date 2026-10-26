@@ -39,3 +39,13 @@ class CreateProjectSerializer(ModelSerializer):  # создание и изме�
         if len(value) < 30:  # описание слишком короткое
             raise serializers.ValidationError("Description must be at least 30 characters long")  # ошибка 400
         return value  # описание прошло проверку
+
+
+class ProjectDetailSerializer(ModelSerializer):  # подробный вид одного проекта
+    class Meta:  # настройки сериализатора
+        model = Project  # сериализуем модель Project
+        # ---------- ВАРИАНТ ИЗ ПРАКТИКИ ----------
+        # В модели нет полей name и count_of_files (у нас title и свойство file_count), пропущен created_at.
+        # fields = ('id', 'name', 'description', 'count_of_files')
+        # ---------- УЛУЧШЕННЫЙ ВАРИАНТ ----------
+        fields = ('id', 'title', 'description', 'created_at', 'file_count')  # file_count — @property модели, только чтение

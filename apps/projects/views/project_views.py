@@ -2,12 +2,17 @@ from datetime import datetime, timedelta  # разбор дат из строк�
 
 from django.utils import timezone  # перевод даты в aware-datetime (USE_TZ = True)
 from rest_framework import status  # HTTP-статусы ответов
+from rest_framework.generics import get_object_or_404  # получить объект или вернуть 404
 from rest_framework.request import Request  # тип объекта запроса
 from rest_framework.response import Response  # ответ DRF
 from rest_framework.views import APIView  # базовый класс представления
 
 from apps.projects.models import Project  # модель проекта
-from apps.projects.serializers import AllProjectsSerializer, CreateProjectSerializer  # сериализаторы проектов
+from apps.projects.serializers import (  # сериализаторы проектов
+    AllProjectsSerializer,  # список проектов
+    CreateProjectSerializer,  # создание и изменение проекта
+    ProjectDetailSerializer,  # подробный вид проекта
+)  # конец импорта сериализаторов
 
 
 class ProjectsListAPIView(APIView):  # список проектов с фильтром по датам и создание проекта
@@ -48,3 +53,25 @@ class ProjectsListAPIView(APIView):  # список проектов с филь
         serializer.is_valid(raise_exception=True)  # при ошибке DRF вернёт 400
         serializer.save()  # сохраняем проект в БД
         return Response(serializer.data, status=status.HTTP_201_CREATED)  # 201 и созданный проект
+
+
+class ProjectDetailAPIView(APIView):  # один проект: просмотр, частичное изменение, удаление
+    def get_object(self, pk):  # найти проект по UUID
+        return get_object_or_404(Project, pk=pk)  # 404, если проекта нет
+
+    def get(self, request: Request, pk) -> Response:  # GET: один проект
+        project = self.get_object(pk)  # проект или 404
+        serializer = ProjectDetailSerializer(project)  # подробный сериализатор с file_count
+        return Response(serializer.data, status=status.HTTP_200_OK)  # 200 и данные проекта
+
+    def put(self, request: Request, pk) -> Response:  # PUT: частичное обновление проекта
+        project = self.get_object(pk)  # проект или 404
+        serializer = CreateProjectSerializer(instance=project, data=request.data, partial=True)  # можно передать только часть полей
+        serializer.is_valid(raise_exception=True)  # при ошибке DRF вернёт 400
+        serializer.save()  # сохраняем изменения
+        return Response(serializer.data, status=status.HTTP_200_OK)  # 200 и обновлённый проект
+
+    def delete(self, request: Request, pk) -> Response:  # DELETE: удаление проекта
+        project = self.get_object(pk)  # проект или 404
+        project.delete()  # удаляем проект (его задачи удалятся каскадно)
+        return Response({"message": "Project was deleted successfully"}, status=status.HTTP_200_OK)  # 200 и сообщение
