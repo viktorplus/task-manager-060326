@@ -411,6 +411,12 @@ Q(priority="Low"),
 например: “pendingˮ и “closedˮ.
 """
 
+# tasks_filtered = Task.objects.exclude(
+#     Q(status=Task.Status.PENDING) | Q(status=Task.Status.DONE)
+# )
+#
+# for task in tasks_filtered:
+#     print(task.title, task.status)
 
 """Задание 26
 1. Импортируйте модель Task.
@@ -420,4 +426,24 @@ Q(priority="Low"),
 4. Напишите запрос, который будет получать все задачи из конкретного проекта, например “TIGERˮ,
 которые были созданы месяц назад.
 5. Обновите приоритетность таких задач на самую высокую."""
+
+# today = timezone.localdate()
+#
+# # Последний день предыдущего месяца
+# previous_month = today.replace(day=1) - timedelta(days=1)
+#
+# # Та же дата предыдущего месяца, с учётом его длины
+# month_ago = previous_month.replace(
+#     day=min(today.day, previous_month.day)
+# )
+#
+# updated_count = Task.objects.filter(
+#     project__title="Project1",
+#     created_at__date=month_ago
+# ).update(
+#     priority=Task.Priority.HIGH,
+#     updated_at=timezone.now()
+# )
+#
+# print("Обновлено задач:", updated_count)
 
