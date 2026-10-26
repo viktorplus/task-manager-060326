@@ -1,7 +1,7 @@
 from django.urls import path
 
 from apps.tasks.views.tasks_views import get_all_tasks, get_task_by_project_name  # функции-представления задач
-from apps.tasks.views.tag_views import TagListAPIView  # классовые представления тегов
+from apps.tasks.views.tag_views import TagListAPIView, TagDetailAPIView  # классовые представления тегов
 
 app_name = 'tasks'
 
@@ -28,5 +28,7 @@ urlpatterns = [
     path('tasks/', get_all_tasks, name='get_all_tasks'),
     path ('tasks/<str:name>/', get_task_by_project_name, name='get_task_by_project_name'),
     path('tags/', TagListAPIView.as_view(), name='tag-list'),  # GET список тегов, POST создание тега
+    # path('tags/<int:pk>/', TagDetailAPIView.as_view()),  # вариант практики: <int:pk>, но у Tag id — UUID
+    path('tags/<uuid:pk>/', TagDetailAPIView.as_view(), name='tag-detail'),  # GET/PUT/DELETE одного тега по UUID
 
 ]

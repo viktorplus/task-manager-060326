@@ -1,4 +1,5 @@
 from rest_framework import status  # HTTP-статусы ответов
+from rest_framework.generics import get_object_or_404  # получить объект или вернуть 404
 from rest_framework.request import Request  # тип объекта запроса
 from rest_framework.response import Response  # ответ DRF
 from rest_framework.views import APIView  # базовый класс представления
@@ -43,3 +44,31 @@ class TagListAPIView(APIView):  # список тегов и создание н
         serializer.is_valid(raise_exception=True)  # при ошибке DRF сам вернёт 400
         serializer.save()  # сохраняем тег в БД
         return Response(serializer.data, status=status.HTTP_201_CREATED)  # 201 и тег вместе с id
+
+
+class TagDetailAPIView(APIView):  # один тег: просмотр, изменение, удаление
+    # ---------- ВАРИАНТ ИЗ ПРАКТИКИ ----------
+    # get_object_or_404 используется без импорта -> NameError при первом же запросе.
+    # def get_object(self, pk):
+    #     return get_object_or_404(Tag, pk=pk)
+
+    # ---------- УЛУЧШЕННЫЙ ВАРИАНТ ----------
+    def get_object(self, pk):  # найти тег по UUID
+        return get_object_or_404(Tag, pk=pk)  # 404, если тега нет (импорт из rest_framework.generics)
+
+    def get(self, request: Request, pk) -> Response:  # GET: один тег
+        tag = self.get_object(pk)  # тег или 404
+        serializer = TagSerializer(tag)  # сериализуем тег
+        return Response(serializer.data, status=status.HTTP_200_OK)  # 200 и данные тега
+
+    def put(self, request: Request, pk) -> Response:  # PUT: полное обновление тега
+        tag = self.get_object(pk)  # тег или 404
+        serializer = TagSerializer(tag, data=request.data)  # сериализатор с новыми данными
+        serializer.is_valid(raise_exception=True)  # при ошибке DRF вернёт 400
+        serializer.save()  # сохраняем изменения
+        return Response(serializer.data, status=status.HTTP_200_OK)  # 200 и обновлённый тег
+
+    def delete(self, request: Request, pk) -> Response:  # DELETE: удаление тега
+        tag = self.get_object(pk)  # тег или 404
+        tag.delete()  # удаляем тег из БД
+        return Response({"message": "Tag was deleted successfully"}, status=status.HTTP_200_OK)  # 200 и сообщение
