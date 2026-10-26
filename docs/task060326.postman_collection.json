@@ -44,11 +44,11 @@
     {
       "name": "update_tag",
       "request": {
-        "method": "PUT",
+        "method": "PATCH",
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"name\": \"NewName\"\r\n}",
+          "raw": "{\r\n    \"name\": \"NewName2\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -56,7 +56,7 @@
           }
         },
         "url": {
-          "raw": "http://127.0.0.1:8001/tags/01a11af9-eee8-7388-b012-07b11bf57f5e/update/",
+          "raw": "http://127.0.0.1:8001/tags/01a11fa6-b69c-71de-9542-72fe51709dd7/update/",
           "protocol": "http",
           "host": [
             "127",
@@ -67,7 +67,7 @@
           "port": "8001",
           "path": [
             "tags",
-            "01a11af9-eee8-7388-b012-07b11bf57f5e",
+            "01a11fa6-b69c-71de-9542-72fe51709dd7",
             "update",
             ""
           ]
@@ -126,6 +126,42 @@
             "tags",
             "create"
           ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "delete tag",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8001/tags/01a177a9-4fe5-736d-9649-1faf8a32b0a4/delete/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8001",
+          "path": [
+            "tags",
+            "01a177a9-4fe5-736d-9649-1faf8a32b0a4",
+            "delete",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "get_task_by_id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
         }
       },
       "response": []
