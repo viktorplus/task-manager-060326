@@ -1,6 +1,6 @@
 from django.db import models
 
-from models.base import TimeStampedModel, UUIDv7Model
+from apps.core.models.base import TimeStampedModel, UUIDv7Model
 from apps.tasks.models.task import Task
 
 

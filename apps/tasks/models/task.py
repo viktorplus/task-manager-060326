@@ -1,7 +1,9 @@
 from django.core.validators import MinLengthValidator
 from django.db import models
 from django.conf import settings
-from models.base import TimeStampedModel, UUIDv7Model
+from apps.core.models.base import TimeStampedModel, UUIDv7Model
+from .tag import Tag
+from .category import Category
 """Создайте связь модели пользователя (User) с моделью Task.
 Добавьте связь к модели Task через поле assignee, которое будет ссылаться на
 пользователя. При выборе типа связи учтите, что на одной задаче может быть
@@ -23,11 +25,11 @@ class Task(UUIDv7Model, TimeStampedModel):
 
     title = models.CharField(max_length=255, validators=[MinLengthValidator(10)], unique=True)
     description = models.TextField(blank=True)
-    categories = models.ManyToManyField("Category", blank=True)
+    categories = models.ManyToManyField(Category, blank=True)
     status = models.CharField(max_length=15, choices=Status.choices, default=Status.NEW)
     priority = models.CharField(max_length=15, choices=Priority.choices, default=Priority.MEDIUM)
-    project = models.ForeignKey("Project", related_name="tasks", on_delete=models.CASCADE)
-    tag = models.ManyToManyField("Tag", related_name="tasks", blank=True)
+    project = models.ForeignKey("projects.Project", related_name="tasks", on_delete=models.CASCADE)
+    tag = models.ManyToManyField(Tag, related_name="tasks", blank=True)
     due_date = models.DateTimeField()
     assignee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="tasks")
 

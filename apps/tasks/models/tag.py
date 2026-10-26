@@ -1,15 +1,17 @@
 from django.db import models
 
-from core.models.base import UUIDv7Model
+from apps.core.models.base import UUIDv7Model
 
 
 class Tag(UUIDv7Model):
+
     name = models.CharField(max_length=50, unique=True)
 
     class Meta:
         ordering = ["name"]
         verbose_name = "Tag"
         verbose_name_plural = "Tags"
+        db_table = "core_tag"
 
     def __str__(self):
         return self.name

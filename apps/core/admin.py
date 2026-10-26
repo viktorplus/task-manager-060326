@@ -1,6 +1,5 @@
 from django.contrib import admin, messages
 from django.utils import timezone
-from .models import Category, SubTask, Task, Project, ProjectFile, Tag
 
 
 @admin.action(description="заменять пробелы на нижние подчёркивания для объектов проекта")
