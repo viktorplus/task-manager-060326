@@ -1,6 +1,7 @@
 from django.urls import path
 
-from apps.projects.views.projects_views import get_all_projects
+from apps.projects.views.project_views import ProjectsListAPIView  # представления проектов
+
 app_name = 'projects'
 
 # urlpatterns = [
@@ -23,6 +24,6 @@ app_name = 'projects'
 
 
 urlpatterns = [
-    path('projects/', get_all_projects, name='get_all_projects'),
+    path('', ProjectsListAPIView.as_view(), name='project-list'),  # GET список (фильтр по датам), POST создание
 
 ]
