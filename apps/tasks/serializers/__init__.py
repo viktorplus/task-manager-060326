@@ -1,2 +1,2 @@
-from .tag_serializers import TagSerializer  # сериализатор тегов
+from .tag_serializers import TagSerializer
 from .tasks import TaskSerializer

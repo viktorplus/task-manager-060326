@@ -3,11 +3,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.request import Request
 
-from apps.tasks.models import Task  # модель задачи
-from apps.tasks.serializers import TaskSerializer  # сериализатор задачи
-
-
-
+from apps.tasks.models import Task
+from apps.tasks.serializers import TaskSerializer
 
 
 @api_view(['GET'])

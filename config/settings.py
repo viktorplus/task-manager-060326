@@ -143,9 +143,8 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 
-# Media files (загруженные пользователями файлы)
-MEDIA_ROOT = BASE_DIR / 'media'  # абсолютный путь от BASE_DIR: не зависит от папки, из которой запущен сервер
-MEDIA_URL = 'media/'  # URL-префикс для загруженных файлов
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = 'media/'
 
 
 # Email

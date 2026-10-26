@@ -1,8 +1,8 @@
-from rest_framework.serializers import ModelSerializer  # базовый сериализатор для моделей
-from apps.tasks.models import Tag  # модель тега
+from rest_framework.serializers import ModelSerializer
+from apps.tasks.models import Tag
 
 
-class TagSerializer(ModelSerializer):  # сериализатор тега
-    class Meta:  # настройки сериализатора
-        model = Tag  # сериализуем модель Tag
-        fields = '__all__'  # все поля модели: id и name
+class TagSerializer(ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = '__all__'

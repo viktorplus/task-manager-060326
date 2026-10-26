@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-urlpatterns = [  # корневой список маршрутов проекта
-    path('admin/', admin.site.urls),  # админка Django
-    path('api/v1/', include('apps.routers')),  # все эндпоинты API версии 1
-]  # конец списка маршрутов
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('api/v1/', include('apps.routers')),
+]

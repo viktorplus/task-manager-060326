@@ -8,44 +8,32 @@
 6. Напишите первый сериализатор, который будет обрабатывать поля id и name для проекта,
 выдавая общую базу для вывода всех проектов.
 """
-from rest_framework import serializers  # поля и ошибки валидации DRF
-from rest_framework.serializers import ModelSerializer  # базовый сериализатор для моделей
+from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer
 
-from apps.projects.models import Project  # модель проекта
-
-
-class AllProjectsSerializer(ModelSerializer):  # краткий вид проекта для списка
-    class Meta:  # настройки сериализатора
-        model = Project  # сериализуем модель Project
-        # ---------- ВАРИАНТ ИЗ ПРАКТИКИ ----------
-        # В модели нет поля name, название проекта хранится в title.
-        # fields = ('id', 'name', 'created_at')
-        # ---------- УЛУЧШЕННЫЙ ВАРИАНТ ----------
-        fields = ('id', 'title', 'created_at')  # id, название и дата создания
+from apps.projects.models import Project
 
 
-class CreateProjectSerializer(ModelSerializer):  # создание и изменение проекта
-    created_at = serializers.DateTimeField(read_only=True)  # дату ставит БД, клиент её не передаёт
-
-    class Meta:  # настройки сериализатора
-        model = Project  # сериализуем модель Project
-        # ---------- ВАРИАНТ ИЗ ПРАКТИКИ ----------
-        # В модели нет поля name, название проекта хранится в title.
-        # fields = ('name', 'description', 'created_at')
-        # ---------- УЛУЧШЕННЫЙ ВАРИАНТ ----------
-        fields = ('title', 'description', 'created_at')  # поля для создания проекта
-
-    def validate_description(self, value: str) -> str:  # проверка описания
-        if len(value) < 30:  # описание слишком короткое
-            raise serializers.ValidationError("Description must be at least 30 characters long")  # ошибка 400
-        return value  # описание прошло проверку
+class AllProjectsSerializer(ModelSerializer):
+    class Meta:
+        model = Project
+        fields = ('id', 'title', 'created_at')
 
 
-class ProjectDetailSerializer(ModelSerializer):  # подробный вид одного проекта
-    class Meta:  # настройки сериализатора
-        model = Project  # сериализуем модель Project
-        # ---------- ВАРИАНТ ИЗ ПРАКТИКИ ----------
-        # В модели нет полей name и count_of_files (у нас title и свойство file_count), пропущен created_at.
-        # fields = ('id', 'name', 'description', 'count_of_files')
-        # ---------- УЛУЧШЕННЫЙ ВАРИАНТ ----------
-        fields = ('id', 'title', 'description', 'created_at', 'file_count')  # file_count — @property модели, только чтение
+class CreateProjectSerializer(ModelSerializer):
+    created_at = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = Project
+        fields = ('title', 'description', 'created_at')
+
+    def validate_description(self, value: str) -> str:
+        if len(value) < 30:
+            raise serializers.ValidationError("Description must be at least 30 characters long")
+        return value
+
+
+class ProjectDetailSerializer(ModelSerializer):
+    class Meta:
+        model = Project
+        fields = ('id', 'title', 'description', 'created_at', 'file_count')

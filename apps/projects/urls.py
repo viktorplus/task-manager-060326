@@ -1,7 +1,7 @@
 from django.urls import path
 
-from apps.projects.views.project_views import ProjectsListAPIView, ProjectDetailAPIView  # представления проектов
-from apps.projects.views.project_file_views import ProjectFileListAPIView  # представление файлов проектов
+from apps.projects.views.project_views import ProjectsListAPIView, ProjectDetailAPIView
+from apps.projects.views.project_file_views import ProjectFileListAPIView
 
 app_name = 'projects'
 
@@ -25,9 +25,8 @@ app_name = 'projects'
 
 
 urlpatterns = [
-    path('', ProjectsListAPIView.as_view(), name='project-list'),  # GET список (фильтр по датам), POST создание
-    path('files/', ProjectFileListAPIView.as_view(), name='project-file-list'),  # GET список файлов, POST загрузка; 'files' не UUID, конфликта с <uuid:pk> нет
-    # path('<int:pk>/', ProjectDetailAPIView.as_view()),  # вариант практики: <int:pk>, но у Project id — UUID
-    path('<uuid:pk>/', ProjectDetailAPIView.as_view(), name='project-detail'),  # GET/PUT/DELETE одного проекта
+    path('', ProjectsListAPIView.as_view(), name='project-list'),
+    path('files/', ProjectFileListAPIView.as_view(), name='project-file-list'),
+    path('<uuid:pk>/', ProjectDetailAPIView.as_view(), name='project-detail'),
 
 ]
