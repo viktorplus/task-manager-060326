@@ -7,6 +7,7 @@ from .views import (
     get_tag_by_id,
     get_task_by_project_name,
     update_tag,
+    delete_tag,
 )
 
 app_name = 'tasks'
@@ -18,4 +19,5 @@ urlpatterns = [
     path('tags/<uuid:tag_id>/', get_tag_by_id, name='get_tag_by_id'),
     path('tags/<uuid:tag_id>/update/', update_tag, name='update_tag'),
     path('tags/create/', create_tag, name='create_tag'),
+    path('tags/<uuid:tag_id>/delete/', delete_tag, name='delete_tag'),
 ]
