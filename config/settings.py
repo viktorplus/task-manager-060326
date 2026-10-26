@@ -143,6 +143,11 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 
+# Media files (загруженные пользователями файлы)
+MEDIA_ROOT = BASE_DIR / 'media'  # абсолютный путь от BASE_DIR: не зависит от папки, из которой запущен сервер
+MEDIA_URL = 'media/'  # URL-префикс для загруженных файлов
+
+
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
