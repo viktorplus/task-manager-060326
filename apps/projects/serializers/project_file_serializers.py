@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
+from apps.projects.serializers.project_serializers import ProjectShortInfoSerializer
 from apps.projects.models import ProjectFile
 from apps.projects.utils.upload_file_helpers import (
     ALLOWED_EXTENSIONS,
@@ -46,3 +47,11 @@ class CreateProjectFileSerializer(ModelSerializer):
         project_file = ProjectFile.objects.create(**validated_data)
         project.files.add(project_file) # файл привяжем к проекту
         return project_file
+
+
+class ProjectFileDetailSerializer(ModelSerializer):
+    project = ProjectShortInfoSerializer(source='projects', many=True, read_only=True)
+
+    class Meta:
+        model = ProjectFile
+        fields = ('file_name', 'created_at', 'project')

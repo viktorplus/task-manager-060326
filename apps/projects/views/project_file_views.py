@@ -1,11 +1,11 @@
 from rest_framework import status
-from rest_framework.generics import get_object_or_404, ListCreateAPIView
+from rest_framework.generics import get_object_or_404, ListCreateAPIView, RetrieveDestroyAPIView
 from rest_framework.request import Request
 from rest_framework.response import Response
 
 
 from apps.projects.models import Project, ProjectFile
-from apps.projects.serializers import AllProjectFilesSerializer, CreateProjectFileSerializer
+from apps.projects.serializers import AllProjectFilesSerializer, CreateProjectFileSerializer, ProjectFileDetailSerializer
 
 
 class ProjectFileListGenericView(ListCreateAPIView):
@@ -35,3 +35,14 @@ class ProjectFileListGenericView(ListCreateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({"message": "File uploaded successfully."}, status=status.HTTP_201_CREATED)
+
+class ProjectFileDetailGenericView(RetrieveDestroyAPIView):
+    queryset = ProjectFile.objects.all()
+    serializer_class = ProjectFileDetailSerializer
+
+    def destroy(self, request: Request, *args, **kwargs) -> Response:
+        project_file = self.get_object()
+        project_file.file.delete(save=False)  # удаляем файл с диска
+        project_file.projects.clear()         # удаляем связь с проектами
+        project_file.delete()                 # удаляем запись из БД
+        return Response({"message": "File deleted successfully"}, status=status.HTTP_200_OK)
