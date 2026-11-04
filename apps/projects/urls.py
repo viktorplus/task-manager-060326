@@ -26,7 +26,7 @@ app_name = 'projects'
 
 urlpatterns = [
     path('', ProjectsListAPIView.as_view(), name='project-list'),
-    path('files/', ProjectFileListAPIView.as_view(), name='project-file-list'),
+    path('', ProjectFileListAPIView.as_view(), name='project-file-list'),
     path('<uuid:pk>/', ProjectDetailAPIView.as_view(), name='project-detail'),
 
 ]
