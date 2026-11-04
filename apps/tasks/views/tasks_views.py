@@ -4,8 +4,13 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from rest_framework.generics import get_object_or_404
 from apps.tasks.models import Task
-from apps.tasks.serializers.tasks_serializers import AllTasksSerializer, CreateTaskSerializer
+from apps.tasks.serializers.tasks_serializers import (
+    AllTasksSerializer,
+    CreateUpdateTaskSerializer,
+    TaskDetailSerializer,
+)
 
 
 class TasksPagination(PageNumberPagination):
@@ -32,7 +37,35 @@ class AllTasksListAPIView(APIView):
         return paginator.get_paginated_response(serializer.data)
 
     def post(self, request: Request) -> Response:
-        serializer = CreateTaskSerializer(data=request.data)
+        serializer = CreateUpdateTaskSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class TaskDetailAPIView(APIView):
+    def get_object(self, pk):
+        return get_object_or_404(Task, pk=pk)
+
+    def get(self, request: Request, pk) -> Response:
+        task = self.get_object(pk)
+        serializer = TaskDetailSerializer(task)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request: Request, pk) -> Response:
+        return self._update(request, pk, partial=False)
+
+    def patch(self, request: Request, pk) -> Response:
+        return self._update(request, pk, partial=True)
+
+    def _update(self, request: Request, pk, partial: bool) -> Response:
+        task = self.get_object(pk)
+        serializer = CreateUpdateTaskSerializer(instance=task, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(TaskDetailSerializer(task).data, status=status.HTTP_200_OK)
+
+    def delete(self, request: Request, pk) -> Response:
+        task = self.get_object(pk)
+        task.delete()
+        return Response({'message': 'The task has been deleted.'}, status=status.HTTP_200_OK)

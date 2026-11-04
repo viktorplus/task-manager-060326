@@ -6,6 +6,9 @@ from rest_framework import serializers
 from apps.projects.models import Project
 from apps.tasks.models import Task, Tag
 
+from apps.projects.serializers.project_serializers import ProjectShortInfoSerializer
+from apps.tasks.serializers.tag_serializers import TagSerializer
+
 
 class AllTasksSerializer(serializers.ModelSerializer):
     project = serializers.SlugRelatedField(read_only=True, slug_field='title')
@@ -16,7 +19,7 @@ class AllTasksSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'project', 'status', 'assignee', 'due_date', 'priority',)
 
 
-class CreateTaskSerializer(serializers.ModelSerializer):
+class CreateUpdateTaskSerializer(serializers.ModelSerializer):
     project = serializers.SlugRelatedField(
         slug_field='title',
         queryset=Project.objects.all(),
@@ -59,3 +62,21 @@ class CreateTaskSerializer(serializers.ModelSerializer):
         task = Task.objects.create(**validated_data)
         task.tag.set(tags)  # запись тегов в промежуточную таблицу
         return task
+
+    def update(self, instance: Task, validated_data: dict[str, Any]) -> Task:
+        tags = validated_data.pop('tag', None)
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        if tags is not None:
+            instance.tag.set(tags)
+        return instance
+
+
+class TaskDetailSerializer(serializers.ModelSerializer):
+    project = ProjectShortInfoSerializer(read_only=True)
+    tag = TagSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Task
+        exclude = ('updated_at', 'deleted_at')
