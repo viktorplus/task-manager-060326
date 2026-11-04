@@ -13,9 +13,10 @@ from apps.projects.utils.upload_file_helpers import (
 
 
 class AllProjectFilesSerializer(ModelSerializer):
+    project = serializers.SlugRelatedField(source='projects', read_only=True, many=True, slug_field='title')
     class Meta:
         model = ProjectFile
-        fields = ('id', 'file_name', 'projects')
+        fields = ('id', 'file_name', 'project')
 
 
 class CreateProjectFileSerializer(ModelSerializer):
@@ -31,10 +32,17 @@ class CreateProjectFileSerializer(ModelSerializer):
         return value
 
     def create(self, validated_data):
-        raw_file = self.context.get('raw_file')
+        project = self.context['project']
+        raw_file = self.context['raw_file']
+
+        file_path = create_file_path(project.title, validated_data['file_name'])
+
         if not check_file_size(raw_file):
             raise serializers.ValidationError(f"File size is too large ({MAX_FILE_SIZE_MB} MB as maximum).")
-        file_path = create_file_path(validated_data['file_name'])
+
         save_file(file_path, raw_file)
         validated_data['file'] = file_path
-        return ProjectFile.objects.create(**validated_data)
+
+        project_file = ProjectFile.objects.create(**validated_data)
+        project.files.add(project_file) # файл привяжем к проекту
+        return project_file

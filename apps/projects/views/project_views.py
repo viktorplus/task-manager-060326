@@ -8,11 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.projects.models import Project
-from apps.projects.serializers import (
-    AllProjectsSerializer,
-    CreateProjectSerializer,
-    ProjectDetailSerializer,
-)
+from apps.projects.serializers import AllProjectsSerializer, CreateProjectSerializer, ProjectDetailSerializer
 
 
 class ProjectsListAPIView(APIView):
