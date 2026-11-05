@@ -1,25 +1,14 @@
 from django.urls import path
 
-from .views import (
-    create_tag,
-    get_all_tags,
-    get_all_tasks,
-    get_tag_by_id,
-    get_task_by_project_name,
-    update_tag,
-    delete_tag,
-    get_task_by_id,
-)
+from apps.tasks.views.tasks_views import AllTasksListAPIView
+from apps.tasks.views.tag_views import TagListAPIView, TagDetailAPIView
+from apps.tasks.views.tasks_views import AllTasksListAPIView, TaskDetailAPIView
 
 app_name = 'tasks'
 
 urlpatterns = [
-    path('tasks/', get_all_tasks, name='get_all_tasks'),
-    path('tasks/<str:name>/', get_task_by_project_name, name='get_task_by_project_name'),
-    path('tags/', get_all_tags, name='get_all_tags'),
-    path('tags/<uuid:tag_id>/', get_tag_by_id, name='get_tag_by_id'),
-    path('tags/<uuid:tag_id>/update/', update_tag, name='update_tag'),
-    path('tags/create/', create_tag, name='create_tag'),
-    path('tags/<uuid:tag_id>/delete/', delete_tag, name='delete_tag'),
-    path('tasks-by-id/<uuid:task_id>/', get_task_by_id, name='get_task_by_id'),
+    path('tasks/', AllTasksListAPIView.as_view(), name='all-tasks'),
+    path('tasks/<uuid:pk>/', TaskDetailAPIView.as_view(), name='task-detail'),
+    path('tags/', TagListAPIView.as_view(), name='tag-list'),
+    path('tags/<uuid:pk>/', TagDetailAPIView.as_view(), name='tag-detail'),
 ]
