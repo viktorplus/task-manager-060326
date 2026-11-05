@@ -8,7 +8,7 @@ from apps.projects.models import Project, ProjectFile
 from apps.projects.serializers import AllProjectFilesSerializer, CreateProjectFileSerializer, ProjectFileDetailSerializer
 
 
-class ProjectFieldListGenericView(ListCreateAPIView):
+class ProjectFileListGenericView(ListCreateAPIView):
     def get_serializer_class(self):
         if self.request.method == 'GET':
             return AllProjectFilesSerializer
@@ -18,10 +18,12 @@ class ProjectFieldListGenericView(ListCreateAPIView):
         project_name = self.request.query_params.get('project')
 
         if project_name:
-            project_files = ProjectFile.objects.filter(
-                project__name=project_name
+            project_file = ProjectFile.objects.filter(
+                projects__title=project_name
             )
-            return project_files
+            return project_file
+
+        return ProjectFile.objects.all()
 
     def list(self, request: Request, *args, **kwargs) -> Response:
         project_files = self.get_queryset()
@@ -29,27 +31,15 @@ class ProjectFieldListGenericView(ListCreateAPIView):
         if not project_files.exists():
             return Response(
                 data=[],
-                status=status.HTTP_204_NOT_FOUND,
+                status=status.HTTP_204_NO_CONTENT
             )
+
         serializer = self.get_serializer(project_files, many=True)
 
         return Response(
             serializer.data,
-            status=status.HTTP_200_OK,
+            status=status.HTTP_200_OK
         )
-
-
-class ProjectFileListGenericView(ListCreateAPIView):
-    def get_serializer_class(self):
-        if self.request.method == 'POST':
-            return CreateProjectFileSerializer
-        return AllProjectFilesSerializer
-
-    def get_queryset(self):
-        project_name = self.request.query_params.get('project')
-        if project_name:
-            return ProjectFile.objects.filter(project__title=project_name)
-        return ProjectFile.objects.all()
 
     def create(self, request: Request, *args, **kwargs):
         file = request.FILES.get('file')
