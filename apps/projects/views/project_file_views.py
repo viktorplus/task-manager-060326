@@ -7,6 +7,8 @@ from rest_framework.response import Response
 from apps.projects.models import Project, ProjectFile
 from apps.projects.serializers import AllProjectFilesSerializer, CreateProjectFileSerializer, ProjectFileDetailSerializer
 
+from apps.projects.utils.upload_file_helpers import delete_file
+
 
 class ProjectFileListGenericView(ListCreateAPIView):
     def get_serializer_class(self):
@@ -57,13 +59,38 @@ class ProjectFileListGenericView(ListCreateAPIView):
         serializer.save()
         return Response({"message": "File uploaded successfully."}, status=status.HTTP_201_CREATED)
 
+
 class ProjectFileDetailGenericView(RetrieveDestroyAPIView):
-    queryset = ProjectFile.objects.all()
     serializer_class = ProjectFileDetailSerializer
 
+    def get_object(self):
+        return get_object_or_404(ProjectFile, pk=self.kwargs['pk'])
+
+    def retrieve(self, request: Request, *args, **kwargs) -> Response:
+        task = self.get_object()
+
+        serializer = self.get_serializer(task)
+
+        return Response(
+            data=serializer.data,
+            status=status.HTTP_200_OK
+        )
+
     def destroy(self, request: Request, *args, **kwargs) -> Response:
-        project_file = self.get_object()
-        project_file.file.delete(save=False)  # удаляем файл с диска
-        project_file.projects.clear()         # удаляем связь с проектами
-        project_file.delete()                 # удаляем запись из БД
-        return Response({"message": "File deleted successfully"}, status=status.HTTP_200_OK)
+        task = self.get_object()
+
+        try:
+            delete_file(file_path=task.file.path)
+        except Exception as e:
+            return Response(
+                data={"message": str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        else:
+            task.delete()
+        return Response(
+            data={
+                "message": "File deleted successfully"
+            },
+            status=status.HTTP_200_OK
+        )

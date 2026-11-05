@@ -49,9 +49,9 @@ class CreateProjectFileSerializer(ModelSerializer):
         return project_file
 
 
-class ProjectFileDetailSerializer(ModelSerializer):
+class ProjectFileDetailSerializer(serializers.ModelSerializer):
     project = ProjectShortInfoSerializer(source='projects', many=True, read_only=True)
 
     class Meta:
         model = ProjectFile
-        fields = ('file_name', 'created_at', 'project')
+        exclude = ('file',)

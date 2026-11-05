@@ -30,3 +30,6 @@ def save_file(file_path: str, file_content) -> str:
         for chunk in file_content.chunks():
             destination.write(chunk)
     return file_path
+
+def delete_file(file_path):
+    os.remove(os.path.realpath(file_path))
