@@ -8,6 +8,37 @@ from apps.projects.models import Project, ProjectFile
 from apps.projects.serializers import AllProjectFilesSerializer, CreateProjectFileSerializer, ProjectFileDetailSerializer
 
 
+class ProjectFieldListGenericView(ListCreateAPIView):
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return AllProjectFilesSerializer
+        return CreateProjectFileSerializer
+
+    def get_queryset(self):
+        project_name = self.request.query_params.get('project')
+
+        if project_name:
+            project_files = ProjectFile.objects.filter(
+                project__name=project_name
+            )
+            return project_files
+
+    def list(self, request: Request, *args, **kwargs) -> Response:
+        project_files = self.get_queryset()
+
+        if not project_files.exists():
+            return Response(
+                data=[],
+                status=status.HTTP_204_NOT_FOUND,
+            )
+        serializer = self.get_serializer(project_files, many=True)
+
+        return Response(
+            serializer.data,
+            status=status.HTTP_200_OK,
+        )
+
+
 class ProjectFileListGenericView(ListCreateAPIView):
     def get_serializer_class(self):
         if self.request.method == 'POST':
