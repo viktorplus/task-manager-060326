@@ -14,7 +14,7 @@ class UserListGenericView(ListAPIView):
     def get_queryset(self):
         project_name = self.request.query_params.get('project_name')
         if project_name:
-            return User.objects.filter(project_title=project_name)
+            return User.objects.filter(project__title=project_name)
         return User.objects.all()
 
     def list(self, request, *args, **kwargs):
@@ -22,7 +22,7 @@ class UserListGenericView(ListAPIView):
 
         if not projects.exists():
             return Response(
-                date=[],
+                data=[],
                 status=status.HTTP_404_NOT_FOUND,
             )
 

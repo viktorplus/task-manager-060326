@@ -73,7 +73,7 @@ class User(UUIDv7Model, AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     def save(self, *args, **kwargs):
-        if self.deleted and not self.deleted_at is None:
+        if self.deleted and self.deleted_at is None:
             self.deleted_at = timezone.now()
         super().save(*args, **kwargs)
 

@@ -8,6 +8,7 @@ from apps.tasks.models import Task, Tag
 
 from apps.projects.serializers.project_serializers import ProjectShortInfoSerializer
 from apps.tasks.serializers.tag_serializers import TagSerializer
+from apps.users.models import User
 
 
 class AllTasksSerializer(serializers.ModelSerializer):
@@ -20,6 +21,16 @@ class AllTasksSerializer(serializers.ModelSerializer):
 
 
 class CreateUpdateTaskSerializer(serializers.ModelSerializer):
+    assignee = serializers.SlugRelatedField(
+        slug_field='email',
+        queryset=User.objects.all(),
+        required=False,
+    )
+
+    class Meta:
+        model = Task
+        fields = ('title', 'description', 'priority', 'project', 'assignee', 'due_date', 'status')
+
     project = serializers.SlugRelatedField(
         slug_field='title',
         queryset=Project.objects.all(),
